@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form>
+    <table>
+        <tr>
+            <td>이름 : [[${view.name}]]</td>
+        </tr>
+        <tr>
+            <td>나이 : [[${view.age}]]</td>
+        </tr>
+        <tr>
+            <td>아이디 : [[${view.id}]]</td>
+        </tr>
+        <tr>
+            <td>비밀번호 : [[${view.password}]]</td>
+        </tr>
+        <tr>
+            <td>
+                <input type="hidden" id="idx" th:value="${view.idx}">
+                <button type="button" id="mod">수정</button>
+                <button type="button" id="del">삭제</button>
+            </td>
+        </tr>
+    </table>
+</form>
+<script>
+    const deleteButton = document.getElementById('del');
+    if (deleteButton) {
+        deleteButton.addEventListener('click', event => {
+            let idx = document.getElementById('idx').value;
+            fetch(`/delete/${idx}`, {
+            method: 'DELETE'
+            })
+            .then(() => {
+            alert('삭제가 완료되었습니다.');
+            location.replace('/result');
+            });
+        });
+    }
+
+    const modifyButton = document.getElementById('mod');
+    if (modifyButton) {
+        modifyButton.addEventListener('click', event => {
+            let idx = document.getElementById('idx').value;
+            fetch(`/modify/${idx}`, {
+            method: 'PUT'
+            })
+            .then(() => {
+            alert('삭제가 완료되었습니다.');
+            location.replace('/view');
+            });
+        });
+    }
+</script>
+</body>
+</html>
