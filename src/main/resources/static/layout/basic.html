@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<th:block th:fragment="setContent(content)">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Sidebar - Start Bootstrap Template</title>
+</head>
+<body>
+<!-- Bootstrap core CSS -->
+<link th:href="@{/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Custom styles for this template -->
+<link th:href="<@{/css/simple-sidebar.css}" rel="stylesheet">
+
+<!-- BootStrap core JavaScript -->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+</body>
+</th:block>
+
+<div class="container-fluid">
+    <th:block th:replace = "${content}"></th:block>
+</div>
+</html>

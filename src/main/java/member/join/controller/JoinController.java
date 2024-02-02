@@ -25,22 +25,22 @@ public class JoinController {
     @Autowired
     JoinService joinService;
 
-    @GetMapping("/join")
-    public String join(){
-        return "join";
-    }
-
     @PostMapping("/write")
     public String write(JoinDTO joinDTO){
         joinService.write(joinDTO);
-        return "redirect:/result";
+        return "redirect:/list";
     }
 
-    @GetMapping("/result")
+    @GetMapping("/write")
+    public String join(){
+        return "write";
+    }
+
+    @GetMapping("/list")
     public String list(Model model, @RequestParam(required = false, defaultValue = "1", name = "page") int page) {
         PageDTO<JoinDTO, JoinEntity> result = joinService.getList(page);
         model.addAttribute("data", result);
-        return "result";
+        return "list";
     }
 
     @GetMapping("/view")
@@ -50,23 +50,24 @@ public class JoinController {
         return "view";
     }
 
-    @GetMapping("/modify")
-    public String modify(@RequestParam("idx") Long idx, Model model) {
+    @PostMapping("/modify/{idx}")
+    public String modify(@PathVariable Long idx, Model model) {
         JoinDTO modify = joinService.find(idx);
         model.addAttribute("modify", modify);
         return "modify";
     }
 
-    @PostMapping("/modify_proc")
-    public String modify_proc(JoinDTO joinDTO, Model model) {
-        JoinDTO view = joinService.modify(joinDTO);
-        model.addAttribute("view", view);
-        return "view";
+    @PutMapping("/modify")
+    public ResponseEntity<Void> modify(@RequestBody JoinDTO joinDTO){
+        System.out.println(joinDTO.getName());
+        System.out.println("---------------------------------------------------------------------");
+        JoinDTO joindto = joinService.modify(joinDTO);
+        return ResponseEntity.ok()
+                .build();
     }
 
     @DeleteMapping("/delete/{idx}")
     public ResponseEntity<Void> delete(@PathVariable Long idx) {
-        System.out.println("idx= " + idx);
         joinService.delete(idx);
 
         return ResponseEntity.ok()

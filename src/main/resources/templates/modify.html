@@ -5,34 +5,57 @@
   <title>Title</title>
 </head>
 <body>
-<form action="/modify_proc" method="post">
   <table>
     <tr>
       <td colspan="2">정보수정</td>
     </tr>
     <tr>
       <td>이름</td>
-      <td><input type="text" name="name" th:value="${modify.name}"></td>
+      <td><input type="text" id="name" th:value="${modify.name}"></td>
     </tr>
     <tr>
       <td>나이</td>
-      <td><input type="number" name="age" th:value="${modify.age}"></td>
+      <td><input type="number" id="age" th:value="${modify.age}"></td>
     </tr>
     <tr>
       <td>아이디</td>
-      <td><input type="text" name="id" th:value="${modify.id}"></td>
+      <td><input type="text" id="id" th:value="${modify.id}"></td>
     </tr>
     <tr>
       <td>비밀번호</td>
-      <td><input type="password" name="password" th:value="${modify.password}"></td>
+      <td><input type="password" id="password" th:value="${modify.password}"></td>
     </tr>
     <tr>
       <td colspan="2">
-        <input type="hidden" name="idx" th:value="${modify.idx}">
-        <input type="submit" value="수정">
+        <input type="hidden" id="idx" th:value="${modify.idx}">
+        <button type="button" id="mod">수정</button>
       </td>
     </tr>
   </table>
-</form>
+  <script>
+    const modifyButton = document.getElementById('mod');
+      if (modifyButton) {
+          modifyButton.addEventListener('click', event => {
+              let idx = document.getElementById('idx').value;
+              fetch(`/modify`, {
+              method: 'PUT',
+              headers: {
+                  "Content-Type": "application/json",
+                  },
+              body: JSON.stringify({
+                  idx: document.getElementById('idx').value,
+                  name: document.getElementById('name').value,
+                  id: document.getElementById('id').value,
+                  password: document.getElementById('password').value,
+                  age: document.getElementById('age').value
+                  })
+              })
+              .then(() => {
+              alert('수정이 완료되었습니다.');
+              location.replace(`/view?idx=${idx}`);
+              });
+          });
+      }
+  </script>
 </body>
 </html>

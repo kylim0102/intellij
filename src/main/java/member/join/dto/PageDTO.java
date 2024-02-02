@@ -36,10 +36,15 @@ public class PageDTO<JoinDTO, JoinEntity> {
         next = totalPage > tempEnd;
         pageList = IntStream.rangeClosed(start, end).boxed().collect(Collectors.toList());
     }
-    /*private void makePageList(Pageable pageable) {
+    private void makePageList(Pageable pageable) {
         this.page = pageable.getPageNumber() + 1;
         this.size = pageable.getPageSize();
+        int tempEnd = (int)(Math.ceil(page/5.0)) * 5;
+        start = tempEnd = 4;
+        prev = start > 1;
+        end = totalPage > tempEnd ? tempEnd:totalPage;
+        next = totalPage > tempEnd;
+        pageList = IntStream.rangeClosed(start, end).boxed().collect(Collectors.toList());
 
-
-    }*/
+    }
 }
